@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Doss-house</string>
+    <string name="dateArrive">Arrival date</string>
+    <string name="departure">Departure date</string>
+</resources>
