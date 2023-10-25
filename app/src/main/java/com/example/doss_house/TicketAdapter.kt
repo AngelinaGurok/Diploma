@@ -12,7 +12,7 @@ class TicketAdapter : RecyclerView.Adapter <TicketAdapter.THolder>(){
     class THolder(item: View) : RecyclerView.ViewHolder(item){
         val tElementBinding = TicketTemplateBinding.bind(item)
         fun bind(ticket: Ticket) = with(tElementBinding){
-            TODO("Создать функцию для заполнения активити. Данные брать из базы")
+           // TODO("Создать функцию для заполнения активити. Данные брать из базы")
         }
     }
 
