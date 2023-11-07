@@ -1,18 +1,27 @@
-package com.example.doss_house
+package com.example.doss_house.tickets
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.doss_house.R
 import com.example.doss_house.databinding.TicketTemplateBinding
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+
+
 
 class TicketAdapter : RecyclerView.Adapter <TicketAdapter.THolder>(){
     val ticketList = ArrayList<Ticket>()
     class THolder(item: View) : RecyclerView.ViewHolder(item){
-        val tElementBinding = TicketTemplateBinding.bind(item)
-        fun bind(ticket: Ticket) = with(tElementBinding){
+        val binding = TicketTemplateBinding.bind(item)
+        fun bind(ticket: Ticket) = with(binding){
            // TODO("Создать функцию для заполнения активити. Данные брать из базы")
+            routeDirectionText.text = "${ticket.depPoint}-${ticket.arrivalPoint}"
+            ticketsAmountText.text = ticket.tickets.toString()
+            depTimeText.text = ticket.depTime
+            arrivalTimeText.text = ticket.arrivalTime
+            priceText.text = ticket.price.toString()
         }
     }
 

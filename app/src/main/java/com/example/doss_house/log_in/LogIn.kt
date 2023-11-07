@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.doss_house.MainActivity
+import com.example.doss_house.tickets.SerachTickets
 import com.example.doss_house.databinding.LogInActivityBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -31,7 +32,7 @@ class LogIn : AppCompatActivity() {
 
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, SerachTickets ::class.java)
                         startActivity(intent)
                     } else {
                         Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()

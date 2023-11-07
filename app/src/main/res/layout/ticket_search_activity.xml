@@ -6,31 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="369dp"
+        android:layout_height="389dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/arrivalPointText"
+        app:layout_constraintTop_toBottomOf="@+id/arrivalPointText"
+        app:layout_constraintVertical_bias="0.435" />
+
     <MultiAutoCompleteTextView
-        android:id="@+id/multiAutoCompleteTextView"
-        android:layout_width="386dp"
+        android:id="@+id/depPointText"
+        android:layout_width="0dp"
         android:layout_height="68dp"
+        android:layout_marginHorizontal="20dp"
         android:hint="City"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.314" />
+        app:layout_constraintVertical_bias="0.058" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/arrivalPointText"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginHorizontal="20dp"
+        android:hint="City"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/depPointText"
+        app:layout_constraintVertical_bias="0.003" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="224dp"
+        android:layout_width="218dp"
         android:layout_height="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
-        app:layout_constraintEnd_toEndOf="@+id/multiAutoCompleteTextView3"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toEndOf="@+id/editTextText3"
-        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView3"
+        app:layout_constraintBottom_toTopOf="@+id/searchButton"
+        app:layout_constraintEnd_toEndOf="@+id/arrivalPointText"
+        app:layout_constraintTop_toBottomOf="@+id/arrivalPointText"
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
-            android:id="@+id/editTextNumber4"
+            android:id="@+id/passangersAmountText"
             android:layout_width="69dp"
             android:layout_height="60dp"
             android:layout_marginStart="3dp"
@@ -47,7 +72,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/passangersRead"
             android:layout_width="136dp"
             android:layout_height="60dp"
             android:paddingTop="14sp"
@@ -64,7 +89,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/searchButton"
         android:layout_width="153dp"
         android:layout_height="60dp"
         android:layout_marginTop="112dp"
@@ -72,33 +97,8 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
-        app:layout_constraintStart_toStartOf="@+id/editTextText3"
-        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView3"
-        app:layout_constraintVertical_bias="0.012" />
-
-    <EditText
-        android:id="@+id/editTextText3"
-        android:layout_width="152dp"
-        android:layout_height="60dp"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
-        app:layout_constraintStart_toStartOf="@+id/multiAutoCompleteTextView3"
-        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView3"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <MultiAutoCompleteTextView
-        android:id="@+id/multiAutoCompleteTextView3"
-        android:layout_width="386dp"
-        android:layout_height="68dp"
-        android:hint="City"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTextView"
-        app:layout_constraintVertical_bias="0.002" />
+        app:layout_constraintTop_toBottomOf="@+id/arrivalPointText"
+        app:layout_constraintVertical_bias="0.958" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -109,29 +109,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5"
-        app:layout_constraintVertical_bias="1.0" >
+        app:layout_constraintTop_toBottomOf="@+id/searchButton"
+        app:layout_constraintVertical_bias="1.0" />
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/btn_star" />
-
-        <ImageButton
-            android:id="@+id/imageButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/btn_star" />
-
-        <ImageButton
-            android:id="@+id/imageButton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/btn_star" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="138dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="68dp"
+        android:hint="Date"
+        android:paddingStart="3dp"
+        android:paddingTop="14dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/arrivalPointText"
+        app:layout_constraintTop_toBottomOf="@+id/depPointText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

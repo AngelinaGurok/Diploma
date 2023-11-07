@@ -2,6 +2,7 @@
   "project_info": {
     "project_number": "798206198859",
     "project_id": "login-registration-db",
+    "firebase_url": "https://login-registration-db-default-rtdb.firebaseio.com",
     "storage_bucket": "login-registration-db.appspot.com"
   },
   "client": [
