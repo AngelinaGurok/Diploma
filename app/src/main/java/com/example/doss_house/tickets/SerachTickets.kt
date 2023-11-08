@@ -6,8 +6,11 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.doss_house.MainActivity
 import com.example.doss_house.databinding.TicketSearchActivityBinding
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -17,13 +20,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.math.roundToInt
 
 
-class SerachTickets : AppCompatActivity() {
+class SerachTickets : AppCompatActivity(), TicketAdapter.Listener{
+
     lateinit var binding: TicketSearchActivityBinding
-    private val adapter = TicketAdapter()
+    private val adapter = TicketAdapter(this)
     private lateinit var databaseRef: DatabaseReference
-    lateinit var routeList: ArrayList<Ticket>
+    /*lateinit var routeList: ArrayList<Ticket>*/
     private val calendar = Calendar.getInstance()
 
 
@@ -31,6 +36,7 @@ class SerachTickets : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = TicketSearchActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("My log", "Before init")
         init()
 
         binding.dateText.setOnClickListener {
@@ -55,7 +61,10 @@ class SerachTickets : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+
     }
+
+
     private fun init(){
         binding.apply {
             recyclerViewTickets.layoutManager = LinearLayoutManager(this@SerachTickets)
@@ -82,9 +91,9 @@ class SerachTickets : AppCompatActivity() {
                             snapshot.child("price").getValue<Double>()!!,
                             snapshot.child("tickets").getValue<Int>()!!)
 
-                        Log.d("My log", "$i ${route.depPoint}-${route.arrivalPoint} " +
-                                "${route.depTime}-${route.arrivalTime} ${route.price}" +
-                                "${route.tickets} ${route.date}")
+                       // Log.d("My log", "$i ${route.depPoint}-${route.arrivalPoint} " +
+                         //       "${route.depTime}-${route.arrivalTime} ${route.price}" +
+                           //     "${route.tickets} ${route.date}")
 
                         adapter.addTicket(route)
                         i++
@@ -111,5 +120,20 @@ class SerachTickets : AppCompatActivity() {
                 })
             }
         }
+    }
+
+    override fun onClick(ticket: Ticket) {
+        var totalPrice =  (binding.passangersAmountText.text.toString().toInt() *
+                ticket.price).toFloat()
+        val intent = Intent(this, BookTicketActivity::class.java).apply {
+            putExtra("depPoint", ticket.depPoint)
+            putExtra("depTime", ticket.depTime)
+            putExtra("arvPoint", ticket.arrivalPoint)
+            putExtra("arvTime", ticket.arrivalTime)
+            putExtra("date", ticket.date)
+            putExtra("amount", binding.passangersAmountText.text.toString())
+            putExtra("price", totalPrice.toString())
+        }
+       startActivity(intent)
     }
 }

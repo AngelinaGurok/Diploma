@@ -1,5 +1,6 @@
 package com.example.doss_house.tickets
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +12,22 @@ import com.google.firebase.database.DatabaseReference
 
 
 
-class TicketAdapter : RecyclerView.Adapter <TicketAdapter.THolder>(){
+class TicketAdapter(val listener : Listener) : RecyclerView.Adapter <TicketAdapter.THolder>(){
     val ticketList = ArrayList<Ticket>()
     class THolder(item: View) : RecyclerView.ViewHolder(item){
         val binding = TicketTemplateBinding.bind(item)
-        fun bind(ticket: Ticket) = with(binding){
-           // TODO("Создать функцию для заполнения активити. Данные брать из базы")
+        fun bind(ticket: Ticket, itemListener: Listener) = with(binding){
+
             routeDirectionText.text = "${ticket.depPoint}-${ticket.arrivalPoint}"
             ticketsAmountText.text = ticket.tickets.toString()
             depTimeText.text = ticket.depTime
             arrivalTimeText.text = ticket.arrivalTime
             priceText.text = ticket.price.toString()
+            itemView.setOnClickListener {
+                Log.d("My log", "Item was clicked")
+                itemListener.onClick(ticket)
+
+            }
         }
     }
 
@@ -35,7 +41,7 @@ class TicketAdapter : RecyclerView.Adapter <TicketAdapter.THolder>(){
     }
 
     override fun onBindViewHolder(holder: THolder, position: Int) {
-        holder.bind(ticketList[position])
+        holder.bind(ticketList[position], listener)
     }
 
     fun addTicket(ticket: Ticket){
@@ -52,5 +58,9 @@ class TicketAdapter : RecyclerView.Adapter <TicketAdapter.THolder>(){
     fun clear (){
         this.ticketList.clear()
         notifyDataSetChanged()
+    }
+
+    interface Listener{
+        fun onClick(ticket: Ticket)
     }
 }

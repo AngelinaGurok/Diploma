@@ -1,6 +1,7 @@
 package com.example.doss_house.user
 
 class User ()   {
+    var id : String
     var email : String
     var name : String
     var surname : String
@@ -16,22 +17,29 @@ class User ()   {
         this.sex = false
         this.phone = ""
         this.status = true
+        this.id = ""
     }
-    constructor (email : String, name : String, surname : String,
-                dateOfBirth : String, phone : String, sex : Boolean) : this() {
-        this.dateOfBirth = dateOfBirth
+    constructor (id : String, dateOfBirth : String, email : String, name : String,
+                 surname : String, phone : String, sex : Boolean) : this() {
+        this.id = id
         this.email = email
         this.name = name
         this.surname = surname
-        this.sex = sex
+        this.dateOfBirth = dateOfBirth
         this.phone = phone
+        this.sex = sex
     }
     constructor(user: User) : this(){
+        id = user.id
         dateOfBirth= user.dateOfBirth
         email = user.email
         name = user.name
         surname = user.surname
         sex = user.sex
         phone = user.phone
+    }
+
+    fun saveData(){
+
     }
 }
