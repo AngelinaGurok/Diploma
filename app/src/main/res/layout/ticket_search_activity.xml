@@ -7,17 +7,14 @@
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerViewTickets"
         android:layout_width="369dp"
         android:layout_height="389dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="68dp"
+        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/arrivalPointText"
-        app:layout_constraintTop_toBottomOf="@+id/arrivalPointText"
-        app:layout_constraintVertical_bias="0.435" />
+        app:layout_constraintTop_toBottomOf="@+id/arrivalPointText" />
 
     <MultiAutoCompleteTextView
         android:id="@+id/depPointText"

@@ -48,4 +48,9 @@ class TicketAdapter : RecyclerView.Adapter <TicketAdapter.THolder>(){
        ticketList.addAll(list)
        notifyDataSetChanged()
     }
+
+    fun clear (){
+        this.ticketList.clear()
+        notifyDataSetChanged()
+    }
 }

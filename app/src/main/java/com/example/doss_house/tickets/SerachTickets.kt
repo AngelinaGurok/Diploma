@@ -1,22 +1,22 @@
 package com.example.doss_house.tickets
+//import android.view.textclassifier.TextClassificationSessionId
+//import com.example.doss_house.MainActivity
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.textclassifier.TextClassificationSessionId
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.doss_house.MainActivity
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.doss_house.databinding.TicketSearchActivityBinding
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ChildEventListener
-import android.util.Log
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
 import java.text.SimpleDateFormat
 import java.util.Locale
-
 
 
 class SerachTickets : AppCompatActivity() {
@@ -31,7 +31,7 @@ class SerachTickets : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = TicketSearchActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("My log", "Search activity was opened.")
+        init()
 
         binding.dateText.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
@@ -55,75 +55,61 @@ class SerachTickets : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+    }
+    private fun init(){
+        binding.apply {
+            recyclerViewTickets.layoutManager = LinearLayoutManager(this@SerachTickets)
+            recyclerViewTickets.adapter = adapter
+            binding.searchButton.setOnClickListener {
+                adapter.clear()
+                databaseRef = FirebaseDatabase.getInstance().getReference("Routes")
+                val path = binding.dateText.text.toString() + "/" +
+                        binding.depPointText.text.toString().lowercase() +
+                        binding.arrivalPointText.text.toString().lowercase()
 
-        binding.searchButton.setOnClickListener {
-            Log.d("My log", "Searchbutton was clicked.")
+                Log.d("My log", path)
 
-            databaseRef = FirebaseDatabase.getInstance().getReference("Routes")
-            Log.d("My log", "Connected to db routes.")
-            val path = binding.dateText.text.toString() + "/" +
-                    binding.depPointText.text.toString().lowercase() +
-                    binding.arrivalPointText.text.toString().lowercase()
+                databaseRef.child(path).addChildEventListener(object : ChildEventListener{
+                    var i : Int = 0
+                    override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?){
 
-            Log.d("My log", path)
+                        val route = Ticket(snapshot.child("arrivalPoint").getValue<String>()!!,
+                            snapshot.child("arrivalTime").getValue<String>()!!,
+                            snapshot.child("date").getValue<String>()!!,
+                            snapshot.child("depPoint").getValue<String>()!!,
+                            snapshot.child("depTime").getValue<String>()!!,
+                            snapshot.child("id").getValue<String>()!!,
+                            snapshot.child("price").getValue<Double>()!!,
+                            snapshot.child("tickets").getValue<Int>()!!)
 
-            databaseRef.child(path).addChildEventListener(object : ChildEventListener{
-                var i : Int = 0
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?){
+                        Log.d("My log", "$i ${route.depPoint}-${route.arrivalPoint} " +
+                                "${route.depTime}-${route.arrivalTime} ${route.price}" +
+                                "${route.tickets} ${route.date}")
 
-                    val route = Ticket(snapshot.child("arrivalPoint").getValue<String>()!!,
-                        snapshot.child("arrivalTime").getValue<String>()!!,
-                        snapshot.child("date").getValue<String>()!!,
-                        snapshot.child("depPoint").getValue<String>()!!,
-                        snapshot.child("depTime").getValue<String>()!!,
-                        snapshot.child("id").getValue<String>()!!,
-                        snapshot.child("price").getValue<Double>()!!,
-                        snapshot.child("tickets").getValue<Int>()!!)
+                        adapter.addTicket(route)
+                        i++
+                    }
+                    override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                        Log.d("My log", "Child changed.")
+                        val arrivalPoint : String
+                        arrivalPoint = snapshot.child("arrivalPoint").getValue<String>()!!
+                        //route = snapshot.getValue<Ticket>()!!
+                        Log.d("My log", arrivalPoint.toString()!!)
+                    }
+                    override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?){
+                        Log.d("My log", "Error occured.")
 
-                    /*val arrivalPoint : String = snapshot.child("arrivalPoint").getValue<String>()!!
+                    }
+                    override fun onChildRemoved(snapshot: DataSnapshot) {
 
-                    val arrivalTime : String = snapshot.child("arrivalTime").getValue<String>()!!
+                        Log.d("My log", "chiled removed.")
 
-                    val date : String = snapshot.child("date").getValue<String>()!!
-
-                    val depPoint : String = snapshot.child("depPoint").getValue<String>()!!
-
-                    val depTime : String = snapshot.child("depTime").getValue<String>()!!
-
-                    val id : String = snapshot.child("id").getValue<String>()!!
-
-                    val price : String = snapshot.child("price").getValue<Double>().toString()!!
-                    val tickets : Int = snapshot.child("tickets").getValue<Int>()!!
-                    */
-                    Log.d("My log", "$i ${route.depPoint}-${route.arrivalPoint} " +
-                            "${route.depTime}-${route.arrivalTime} ${route.price}" +
-                            "${route.tickets} ${route.date}")
-                    i++
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d("My log", "Child changed.")
-                    val arrivalPoint : String
-                    arrivalPoint = snapshot.child("arrivalPoint").getValue<String>()!!
-                    //route = snapshot.getValue<Ticket>()!!
-                    Log.d("My log", arrivalPoint.toString()!!)
-                }
-
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?){
-                    Log.d("My log", "Error occured.")
-
-                }
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-
-                    Log.d("My log", "chiled removed.")
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("My log", "Error occured.")
-                }
-            })
-        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("My log", "Error occured.")
+                    }
+                })
+            }
         }
     }
+}
