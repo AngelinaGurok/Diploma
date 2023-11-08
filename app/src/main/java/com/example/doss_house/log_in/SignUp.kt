@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.doss_house.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.doss_house.tickets.SerachTickets
+import com.example.doss_house.user.User
 import com.example.doss_house.databinding.RegistrationActivityBinding
 
 
@@ -22,10 +23,18 @@ class SignUp : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.signUpButton.setOnClickListener {
+            val user : User
             val email = binding.signUpEmailText.text.toString()
             val pass = binding.signUpPassword.text.toString()
             val passConfirm = binding.signUpPassword2.text.toString()
-            //TODO("add try catch if fields are not empty and passwords comparison")
+
+            user = User(binding.signUpDateOfBirthText.text.toString(),
+                        binding.signUpEmailText.text.toString(),
+                        binding.signUpNameText.text.toString(),
+                        binding.signUpSurnameText.text.toString(),
+                        binding.signUpPhoneText.text.toString(), false)
+
+            //TODO("add try catch if fields are not empty and passwords comparison, add user to db")
             firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                 if (it.isSuccessful) {
                     val intent = Intent(this, SerachTickets ::class.java)
