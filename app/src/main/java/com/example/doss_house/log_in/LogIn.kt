@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.doss_house.MainActivity
 import com.example.doss_house.tickets.SerachTickets
 import com.example.doss_house.databinding.LogInActivityBinding
 import com.google.firebase.auth.FirebaseAuth

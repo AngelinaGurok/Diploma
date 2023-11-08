@@ -44,14 +44,14 @@
         app:layout_constraintTop_toBottomOf="@+id/signUpSurnameText">
 
         <RadioButton
-            android:id="@+id/radioButtonHusband"
+            android:id="@+id/radioButtonMale"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:checked="true"
             android:text="Male" />
 
         <RadioButton
-            android:id="@+id/radioButtonKitten"
+            android:id="@+id/radioButtonFemale"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text="Female" />

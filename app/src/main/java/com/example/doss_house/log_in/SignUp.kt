@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.doss_house.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.doss_house.tickets.SerachTickets
 import com.example.doss_house.user.User
@@ -34,17 +33,32 @@ class SignUp : AppCompatActivity() {
 
             database = FirebaseDatabase.getInstance().getReference("Users")
             var id = database.push().key
+            while(binding.signUpDateOfBirthText.text.toString().isEmpty() ||
+                binding.signUpEmailText.text.toString().isEmpty() ||
+                binding.signUpNameText.text.toString().isEmpty() ||
+                binding.signUpNameText.text.toString().isEmpty() ||
+                binding.signUpSurnameText.text.toString().isEmpty() ||
+                binding.signUpPhoneText.text.toString().isEmpty() ||
+                binding.signUpPassword.text.toString().isEmpty() ||
+                binding.signUpPassword2.text.toString().isEmpty()){
+                Toast.makeText(this, "Fulfill all the fields before registration", Toast.LENGTH_SHORT).show()
+            }
             user = User(id!!, binding.signUpDateOfBirthText.text.toString(),
                         binding.signUpEmailText.text.toString(),
                         binding.signUpNameText.text.toString(),
                         binding.signUpSurnameText.text.toString(),
                         binding.signUpPhoneText.text.toString(), false)
             Log.d("My log", "${user.email}")
-            database.child(user.id).setValue(user)
 
-            //TODO("add try catch if fields are not empty and passwords comparison, add user to db")
+
+            while(binding.signUpPassword.text.toString() != binding.signUpPassword2.text.toString()){
+                Toast.makeText(this, "Passwords must match", Toast.LENGTH_SHORT).show()
+            }
+
             firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                 if (it.isSuccessful) {
+                    user.id = FirebaseAuth.getInstance().uid.toString()
+                    database.child(user.id).setValue(user)
                     val intent = Intent(this, SerachTickets ::class.java)
                     startActivity(intent)
                 } else {

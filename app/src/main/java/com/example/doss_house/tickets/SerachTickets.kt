@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
+import android.widget.Toast
 
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.doss_house.MainActivity
+
 import com.example.doss_house.databinding.TicketSearchActivityBinding
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -20,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.getValue
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.math.roundToInt
 
 
 class SerachTickets : AppCompatActivity(), TicketAdapter.Listener{
@@ -28,7 +28,6 @@ class SerachTickets : AppCompatActivity(), TicketAdapter.Listener{
     lateinit var binding: TicketSearchActivityBinding
     private val adapter = TicketAdapter(this)
     private lateinit var databaseRef: DatabaseReference
-    /*lateinit var routeList: ArrayList<Ticket>*/
     private val calendar = Calendar.getInstance()
 
 
@@ -91,19 +90,19 @@ class SerachTickets : AppCompatActivity(), TicketAdapter.Listener{
                             snapshot.child("price").getValue<Double>()!!,
                             snapshot.child("tickets").getValue<Int>()!!)
 
-                       // Log.d("My log", "$i ${route.depPoint}-${route.arrivalPoint} " +
-                         //       "${route.depTime}-${route.arrivalTime} ${route.price}" +
-                           //     "${route.tickets} ${route.date}")
-
                         adapter.addTicket(route)
-                        i++
+                        Log.d("My log", "$i ${route.depPoint}-${route.arrivalPoint} " +
+                                "${route.depTime}-${route.arrivalTime} ${route.price}" + " " +
+                                "${route.tickets} ${route.date}")
+
+
                     }
                     override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                         Log.d("My log", "Child changed.")
                         val arrivalPoint : String
                         arrivalPoint = snapshot.child("arrivalPoint").getValue<String>()!!
-                        //route = snapshot.getValue<Ticket>()!!
-                        Log.d("My log", arrivalPoint.toString()!!)
+                        val tickets = snapshot.child("tickets").getValue<String>()!!
+
                     }
                     override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?){
                         Log.d("My log", "Error occured.")
@@ -133,6 +132,7 @@ class SerachTickets : AppCompatActivity(), TicketAdapter.Listener{
             putExtra("date", ticket.date)
             putExtra("amount", binding.passangersAmountText.text.toString())
             putExtra("price", totalPrice.toString())
+
         }
        startActivity(intent)
     }
